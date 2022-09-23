@@ -23,10 +23,13 @@ public class CanvasPokemonDetail : MonoBehaviour
 
     [Header("Listener Events")]
     [SerializeField] private PokemonDetailEventChannelSO _eventLoadPokemonDetail;
+
+    private ColorTypePokemon _colorTypePokemon;
     
     private void Awake()
     {
         _buttonClose.onClick.AddListener(CloseScreen);
+        _colorTypePokemon = GetComponent<ColorTypePokemon>();
         _eventLoadPokemonDetail.OnEventRaised += OpenScreen;
     }
 
@@ -71,8 +74,10 @@ public class CanvasPokemonDetail : MonoBehaviour
         }
         for (int i = 0; i < pokemonDetail.types.Length; ++i)
         {
+            string type = pokemonDetail.types[i];
             _pokemonTypeList[i].imageContainer.gameObject.SetActive(true);
-            _pokemonTypeList[i].textType.text = pokemonDetail.types[i];
+            _pokemonTypeList[i].imageContainer.color = _colorTypePokemon.GetColorType(type);
+            _pokemonTypeList[i].textType.text = type;
         }
     }
 }
