@@ -244,8 +244,9 @@ GameObject:
   - component: {fileID: 4703870189591218516}
   - component: {fileID: 4703870189591218518}
   - component: {fileID: 4703870189591218519}
+  - component: {fileID: 2675284264641548608}
   m_Layer: 5
-  m_Name: PokemonContainer
+  m_Name: SelectablePokemon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -311,3 +312,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2675284264641548608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4703870189591218517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78c6fa52279bab84b81e234b42d6ba6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
