@@ -22,6 +22,15 @@ public class CanvasPokemonDetail : MonoBehaviour
     [Header("HP")]
     [SerializeField] private Slider _sliderHP;
     [SerializeField] private Text _textValueHP;
+    [Header("Attack")]
+    [SerializeField] private Slider _sliderAttack;
+    [SerializeField] private Text _textValueAttack;
+    [Header("Defense")]
+    [SerializeField] private Slider _sliderDefense;
+    [SerializeField] private Text _textValueDefense;
+    [Header("Speed")]
+    [SerializeField] private Slider _sliderSpeed;
+    [SerializeField] private Text _textValueSpeed;
 
     [SerializeField] private Button _buttonClose;
 
@@ -69,10 +78,21 @@ public class CanvasPokemonDetail : MonoBehaviour
         _textPokemonHeight.text = pokemonDetail.height;
         _textPokemonWeight.text = pokemonDetail.weight;
 
-        _sliderHP.minValue = 1;
         _sliderHP.maxValue = DataManager.POKEMON_MAX_HP;
         _sliderHP.value = pokemonDetail.base_hp;
         _textValueHP.text = pokemonDetail.base_hp.ToString();
+
+        _sliderAttack.maxValue = DataManager.POKEMON_MAX_ATTACK;
+        _sliderAttack.value = pokemonDetail.base_attack;
+        _textValueAttack.text = pokemonDetail.base_attack.ToString();
+
+        _sliderDefense.maxValue = DataManager.POKEMON_MAX_DEFENSE;
+        _sliderDefense.value = pokemonDetail.base_defense;
+        _textValueDefense.text = pokemonDetail.base_defense.ToString();
+
+        _sliderSpeed.maxValue = DataManager.POKEMON_MAX_SPEED;
+        _sliderSpeed.value = pokemonDetail.base_speed;
+        _textValueSpeed.text = pokemonDetail.base_speed.ToString();
     }
 
     private void LoadTypes(DataManager.PokemonDetail pokemonDetail)
