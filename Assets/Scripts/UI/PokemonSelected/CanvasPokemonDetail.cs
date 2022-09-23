@@ -75,8 +75,8 @@ public class CanvasPokemonDetail : MonoBehaviour
         _textPokemonNumber.text = pokemonDetail.id.GetPokemonFormat();
         _textPokemonName.text = pokemonDetail.name;
         LoadTypes(pokemonDetail);
-        _textPokemonHeight.text = pokemonDetail.height;
-        _textPokemonWeight.text = pokemonDetail.weight;
+        _textPokemonHeight.text = $"{pokemonDetail.height} decimeters";
+        _textPokemonWeight.text = $"{pokemonDetail.weight} hectograms";
 
         _sliderHP.maxValue = DataManager.POKEMON_MAX_HP;
         _sliderHP.value = pokemonDetail.base_hp;
