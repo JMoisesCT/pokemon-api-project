@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,19 +12,28 @@ public class SelectablePokemon : MonoBehaviour
     [SerializeField] private RawImage _image;
     [SerializeField] private Text _textName;
     [SerializeField] private Text _textNumber;
-
+    [SerializeField] private Button _button;
     private DataManager.PokemonDetail _pokemonDetail;
 
+    [Header("Sender Events")]
+    [SerializeField] private PokemonDetailEventChannelSO _eventLoadPokemonDetail;
     [Header("Listener Events")]
     [SerializeField] private PokemonDetailEventChannelSO _eventCreateAndSavePokemonDetail;
 
     private void Awake()
     {
+        _button.onClick.AddListener(OpenPokemonSelectedScreen);
         _eventCreateAndSavePokemonDetail.OnEventRaised += LoadAndSaveDetail;
+    }
+
+    private void OpenPokemonSelectedScreen()
+    {
+        _eventLoadPokemonDetail.RaiseEvent(_pokemonDetail);
     }
 
     private void OnDestroy()
     {
+        _button.onClick.RemoveListener(OpenPokemonSelectedScreen);
         _eventCreateAndSavePokemonDetail.OnEventRaised -= LoadAndSaveDetail;
     }
 

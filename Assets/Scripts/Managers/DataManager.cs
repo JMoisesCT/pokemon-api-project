@@ -115,7 +115,6 @@ public class DataManager : MonoBehaviour
                 pokemonDetail.name = pokemonDetailFromDatabase.name;
                 pokemonDetail.id = pokemonDetailFromDatabase.id;
                 StartCoroutine(LoadTexture(pokemonDetailFromDatabase.sprites.front_default, pokemonDetail));
-                Debug.Log($"jsonPokemon {jsonPokemon}");
             }
             else if (request.result == UnityWebRequest.Result.ProtocolError)
             {
