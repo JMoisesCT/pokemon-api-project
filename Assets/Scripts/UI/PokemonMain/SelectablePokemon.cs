@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SelectablePokemon : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private string _name;
 
-    // Update is called once per frame
-    void Update()
+    [Header("UI")]
+    [SerializeField] private Image _image;
+    [SerializeField] private Text _textName;
+    [SerializeField] private Text _textNumber;
+
+    public void Initialize(string name)
     {
-        
+        _name = name;
     }
 }

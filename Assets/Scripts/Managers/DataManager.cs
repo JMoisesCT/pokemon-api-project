@@ -42,16 +42,29 @@ public class DataManager : MonoBehaviour
     //--- End of Json Classes ---
 
     const string POKEMON_API = "https://pokeapi.co/api/v2/pokemon";
-    const string POKEMON_LIST_URL = "?limit=2&offset=0";
+    const string POKEMON_LIST_URL_1 = "?limit=";
+    const string POKEMON_LIST_URL_2 = "&offset=0";
+
+    [SerializeField] private int _maxPokemon;
+    [Header("Sender Events")]
+    [SerializeField] private StringEventChannelSO _eventCreateSelectablePokemon;
+
+    private Dictionary<string, string> _dictionaryPokemons;
+
+    private void Awake()
+    {
+        _dictionaryPokemons = new Dictionary<string, string>();
+    }
 
     private void Start()
     {
-        StartCoroutine(LoadPokemonList());
+        string listUrl = $"{POKEMON_LIST_URL_1}{_maxPokemon}{POKEMON_LIST_URL_2}";
+        StartCoroutine(LoadPokemonList(listUrl));
     }
 
-    private IEnumerator LoadPokemonList()
+    private IEnumerator LoadPokemonList(string listUrl)
     {
-        var request = new UnityWebRequest(POKEMON_API + POKEMON_LIST_URL, "GET");
+        var request = new UnityWebRequest(POKEMON_API + listUrl, "GET");
         request.downloadHandler = new DownloadHandlerBuffer();
 
         yield return request.SendWebRequest();
@@ -64,8 +77,13 @@ public class DataManager : MonoBehaviour
             if (request.result == UnityWebRequest.Result.Success)
             {
                 string jsonPokemon = request.downloadHandler.text;
-                PokemonList data = JsonUtility.FromJson<PokemonList>(jsonPokemon);
-                Debug.Log("jsonPokemon " + jsonPokemon);
+                PokemonList pokemonList = JsonUtility.FromJson<PokemonList>(jsonPokemon);
+                for (int i = 0; i < pokemonList.results.Length; ++i)
+                {
+                    _eventCreateSelectablePokemon.RaiseEvent(pokemonList.results[i].name);
+                    _dictionaryPokemons.Add(pokemonList.results[i].name, pokemonList.results[i].url);
+                }
+                Debug.Log($"jsonPokemon {jsonPokemon}");
             }
             else if (request.result == UnityWebRequest.Result.ProtocolError)
             {
@@ -73,7 +91,7 @@ public class DataManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Error Pokemon API: " + request.error);
+                Debug.Log($"Error Pokemon API: { request.error}");
             }
         }
     }
