@@ -2363,7 +2363,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Water
+  m_Text: Type
 --- !u!222 &753647513
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2632,7 +2632,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Water
+  m_Text: Type
 --- !u!222 &870512868
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3226,7 +3226,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Pokeweak
+  m_Text: Pokemon
 --- !u!222 &1060695804
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4139,7 +4139,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Water
+  m_Text: Type
 --- !u!222 &1435383146
 CanvasRenderer:
   m_ObjectHideFlags: 0
