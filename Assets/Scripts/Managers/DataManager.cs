@@ -16,6 +16,23 @@ public class DataManager : MonoBehaviour
         public string weight;
         public Texture imageDefault;
         public string[] types;
+        public int base_hp;
+        public int base_attack;
+        public int base_defense;
+        public int base_speed;
+    }
+
+    [Serializable]
+    public class PokemonStats
+    {
+        public int base_stat;
+        public PokemonStatDetail stat;
+    }
+
+    [Serializable]
+    public class PokemonStatDetail
+    {
+        public int name;
     }
 
     [Serializable]
@@ -40,6 +57,7 @@ public class DataManager : MonoBehaviour
         public string height;
         public string weight;
         public PokemonTypes[] types;
+        public PokemonStats[] stats;
     }
 
     [Serializable]
@@ -68,6 +86,11 @@ public class DataManager : MonoBehaviour
     const string POKEMON_API = "https://pokeapi.co/api/v2/pokemon";
     const string POKEMON_LIST_URL_1 = "?limit=";
     const string POKEMON_LIST_URL_2 = "&offset=0";
+
+    public static int POKEMON_MAX_HP = 0;
+    public static int POKEMON_MAX_ATTACK = 0;
+    public static int POKEMON_MAX_DEFENSE = 0;
+    public static int POKEMON_MAX_SPEED = 0;
 
     [SerializeField] private int _maxPokemon;
     [Header("Sender Events")]
@@ -141,6 +164,45 @@ public class DataManager : MonoBehaviour
                 for (int i = 0; i < countTypes; ++i)
                 {
                     pokemonDetail.types[i] = pokemonDetailFromDatabase.types[i].type.name;
+                }
+                int countStats = pokemonDetailFromDatabase.stats.Length;
+                for (int i = 0; i < countStats; ++i)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            // HP.
+                            pokemonDetail.base_hp = pokemonDetailFromDatabase.stats[i].base_stat;
+                            if (pokemonDetail.base_hp > POKEMON_MAX_HP)
+                            {
+                                POKEMON_MAX_HP = pokemonDetail.base_hp;
+                            }
+                            break;
+                        case 1:
+                            // Attack.
+                            pokemonDetail.base_attack = pokemonDetailFromDatabase.stats[i].base_stat;
+                            if (pokemonDetail.base_attack > POKEMON_MAX_ATTACK)
+                            {
+                                POKEMON_MAX_ATTACK = pokemonDetail.base_attack;
+                            }
+                            break;
+                        case 2:
+                            // Defense.
+                            pokemonDetail.base_defense = pokemonDetailFromDatabase.stats[i].base_stat;
+                            if (pokemonDetail.base_defense > POKEMON_MAX_DEFENSE)
+                            {
+                                POKEMON_MAX_DEFENSE = pokemonDetail.base_defense;
+                            }
+                            break;
+                        case 5:
+                            // Speed.
+                            pokemonDetail.base_speed = pokemonDetailFromDatabase.stats[i].base_stat;
+                            if (pokemonDetail.base_speed > POKEMON_MAX_SPEED)
+                            {
+                                POKEMON_MAX_SPEED = pokemonDetail.base_speed;
+                            }
+                            break;
+                    }
                 }
 
                 StartCoroutine(LoadTexture(pokemonDetailFromDatabase.sprites.front_default, pokemonDetail));

@@ -19,6 +19,10 @@ public class CanvasPokemonDetail : MonoBehaviour
     [SerializeField] private PokemonTypeContainer[] _pokemonTypeList;
     [SerializeField] private Text _textPokemonHeight;
     [SerializeField] private Text _textPokemonWeight;
+    [Header("HP")]
+    [SerializeField] private Slider _sliderHP;
+    [SerializeField] private Text _textValueHP;
+
     [SerializeField] private Button _buttonClose;
 
     [Header("Listener Events")]
@@ -64,6 +68,11 @@ public class CanvasPokemonDetail : MonoBehaviour
         LoadTypes(pokemonDetail);
         _textPokemonHeight.text = pokemonDetail.height;
         _textPokemonWeight.text = pokemonDetail.weight;
+
+        _sliderHP.minValue = 1;
+        _sliderHP.maxValue = DataManager.POKEMON_MAX_HP;
+        _sliderHP.value = pokemonDetail.base_hp;
+        _textValueHP.text = pokemonDetail.base_hp.ToString();
     }
 
     private void LoadTypes(DataManager.PokemonDetail pokemonDetail)
