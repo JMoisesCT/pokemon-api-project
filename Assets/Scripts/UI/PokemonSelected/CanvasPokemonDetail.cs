@@ -10,6 +10,8 @@ public class CanvasPokemonDetail : MonoBehaviour
     [SerializeField] private Text _textPokemonNumber;
     [SerializeField] private Text _textPokemonName;
     [SerializeField] private Text _textPokemonType;
+    [SerializeField] private Text _textPokemonHeight;
+    [SerializeField] private Text _textPokemonWeight;
     [SerializeField] private Button _buttonClose;
 
     [Header("Listener Events")]
@@ -49,5 +51,8 @@ public class CanvasPokemonDetail : MonoBehaviour
         _imagePokemon.texture = pokemonDetail.imageDefault;
         _textPokemonNumber.text = pokemonDetail.id.GetPokemonFormat();
         _textPokemonName.text = pokemonDetail.name;
+        _textPokemonType.text = pokemonDetail.types[0];
+        _textPokemonHeight.text = pokemonDetail.height;
+        _textPokemonWeight.text = pokemonDetail.weight;
     }
 }

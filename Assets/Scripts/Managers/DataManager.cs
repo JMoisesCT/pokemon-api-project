@@ -12,7 +12,23 @@ public class DataManager : MonoBehaviour
     {
         public string name;
         public int id;
+        public string height;
+        public string weight;
         public Texture imageDefault;
+        public string[] types;
+    }
+
+    [Serializable]
+    public class PokemonTypes
+    {
+        public PokemonTypeDetail type;
+    }
+
+    [Serializable]
+    public class PokemonTypeDetail
+    {
+        public string name;
+        public string url;
     }
 
     [Serializable]
@@ -21,6 +37,9 @@ public class DataManager : MonoBehaviour
         public string name;
         public int id;
         public Sprites sprites;
+        public string height;
+        public string weight;
+        public PokemonTypes[] types;
     }
 
     [Serializable]
@@ -111,9 +130,19 @@ public class DataManager : MonoBehaviour
             {
                 string jsonPokemon = request.downloadHandler.text;
                 PokemonDetailDB pokemonDetailFromDatabase = JsonUtility.FromJson<PokemonDetailDB>(jsonPokemon);
+                // Fill data for each pokemon.
                 PokemonDetail pokemonDetail = new PokemonDetail();
                 pokemonDetail.name = pokemonDetailFromDatabase.name;
                 pokemonDetail.id = pokemonDetailFromDatabase.id;
+                pokemonDetail.height = pokemonDetailFromDatabase.height;
+                pokemonDetail.weight = pokemonDetailFromDatabase.weight;
+                int countTypes = pokemonDetailFromDatabase.types.Length;
+                pokemonDetail.types = new string[countTypes];
+                for (int i = 0; i < countTypes; ++i)
+                {
+                    pokemonDetail.types[i] = pokemonDetailFromDatabase.types[i].type.name;
+                }
+
                 StartCoroutine(LoadTexture(pokemonDetailFromDatabase.sprites.front_default, pokemonDetail));
             }
             else if (request.result == UnityWebRequest.Result.ProtocolError)
