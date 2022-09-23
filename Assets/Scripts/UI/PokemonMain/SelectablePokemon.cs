@@ -42,6 +42,6 @@ public class SelectablePokemon : MonoBehaviour
 
         _image.texture = _pokemonDetail.imageDefault;
         _textName.text = _name;
-        _textNumber.text = $"#00{pokemonDetail.id}";
+        _textNumber.text = pokemonDetail.id.GetPokemonFormat();
     }
 }
