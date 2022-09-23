@@ -913,3 +913,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxPokemon: 151
   _eventCreateSelectablePokemon: {fileID: 11400000, guid: 6f2269e56af74e14c8724f18b7ddc87d, type: 2}
+  _eventSavePokemonDetail: {fileID: 11400000, guid: 60380c55fc9b8c345896f736fa0a6bf2, type: 2}

@@ -6,8 +6,8 @@ public class StringEventChannelSO : ScriptableObject
 {
     public UnityAction<string> OnEventRaised;
 
-    public void RaiseEvent(string intParam)
+    public void RaiseEvent(string stringParam)
     {
-        OnEventRaised?.Invoke(intParam);
+        OnEventRaised?.Invoke(stringParam);
     }
 }

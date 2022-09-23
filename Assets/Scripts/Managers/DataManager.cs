@@ -11,17 +11,22 @@ public class DataManager : MonoBehaviour
     public class PokemonDetail
     {
         public string name;
-        public string urlDefault;
-        public string urlShiny;
+        public int id;
         public Texture imageDefault;
-        public Texture imageShiny;
+    }
+
+    [Serializable]
+    public class PokemonDetailDB
+    {
+        public string name;
+        public int id;
+        public Sprites sprites;
     }
 
     [Serializable]
     public class Sprites
     {
         public string front_default;
-        public string front_shiny;
     }
 
     [Serializable]
@@ -48,13 +53,7 @@ public class DataManager : MonoBehaviour
     [SerializeField] private int _maxPokemon;
     [Header("Sender Events")]
     [SerializeField] private StringEventChannelSO _eventCreateSelectablePokemon;
-
-    private Dictionary<string, string> _dictionaryPokemons;
-
-    private void Awake()
-    {
-        _dictionaryPokemons = new Dictionary<string, string>();
-    }
+    [SerializeField] private PokemonDetailEventChannelSO _eventSavePokemonDetail;
 
     private void Start()
     {
@@ -76,13 +75,46 @@ public class DataManager : MonoBehaviour
         {
             if (request.result == UnityWebRequest.Result.Success)
             {
-                string jsonPokemon = request.downloadHandler.text;
-                PokemonList pokemonList = JsonUtility.FromJson<PokemonList>(jsonPokemon);
+                string jsonPokemonList = request.downloadHandler.text;
+                PokemonList pokemonList = JsonUtility.FromJson<PokemonList>(jsonPokemonList);
                 for (int i = 0; i < pokemonList.results.Length; ++i)
                 {
                     _eventCreateSelectablePokemon.RaiseEvent(pokemonList.results[i].name);
-                    _dictionaryPokemons.Add(pokemonList.results[i].name, pokemonList.results[i].url);
+                    StartCoroutine(LoadPokemonDetail(pokemonList.results[i].url));
                 }
+                Debug.Log($"jsonPokemon {jsonPokemonList}");
+            }
+            else if (request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.Log("Unathourized Pokemon API");
+            }
+            else
+            {
+                Debug.Log($"Error Pokemon API: { request.error}");
+            }
+        }
+    }
+
+    private IEnumerator LoadPokemonDetail(string urlPokemon)
+    {
+        var request = new UnityWebRequest(urlPokemon, "GET");
+        request.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return request.SendWebRequest();
+        if (request.result == UnityWebRequest.Result.ConnectionError)
+        {
+            Debug.Log("Error Pokemon API: " + request.error);
+        }
+        else
+        {
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string jsonPokemon = request.downloadHandler.text;
+                PokemonDetailDB pokemonDetailFromDatabase = JsonUtility.FromJson<PokemonDetailDB>(jsonPokemon);
+                PokemonDetail pokemonDetail = new PokemonDetail();
+                pokemonDetail.name = pokemonDetailFromDatabase.name;
+                pokemonDetail.id = pokemonDetailFromDatabase.id;
+                StartCoroutine(LoadTexture(pokemonDetailFromDatabase.sprites.front_default, pokemonDetail));
                 Debug.Log($"jsonPokemon {jsonPokemon}");
             }
             else if (request.result == UnityWebRequest.Result.ProtocolError)
@@ -93,6 +125,25 @@ public class DataManager : MonoBehaviour
             {
                 Debug.Log($"Error Pokemon API: { request.error}");
             }
+        }
+    }
+
+    IEnumerator LoadTexture(string url, PokemonDetail pokemonDetail)
+    {
+        UnityWebRequest requestTexture = UnityWebRequestTexture.GetTexture(url);
+        yield return requestTexture.SendWebRequest();
+
+        if (requestTexture.result == UnityWebRequest.Result.ConnectionError ||
+            requestTexture.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.Log(requestTexture.error);
+        }
+        else
+        {
+            Texture myTexture = ((DownloadHandlerTexture)requestTexture.downloadHandler).texture;
+            pokemonDetail.imageDefault = myTexture;
+            // After the texture is saved, we can send the pokemon detail class to the scroll list.
+            _eventSavePokemonDetail.RaiseEvent(pokemonDetail);
         }
     }
 }
